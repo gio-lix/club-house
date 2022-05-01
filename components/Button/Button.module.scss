@@ -1,0 +1,29 @@
+.buttonBox {
+    display: flex;
+    align-items: center;
+    height: 35px;
+    padding: 0 20px;
+    color: white;
+    border: none;
+    border-radius: 18px;
+    cursor: pointer;
+    //margin: 20px 0;
+}
+.indigoButton {
+  background-color: #6f6ff5;
+  &:hover {
+    background-color: #424296;
+  }
+}
+.greenButton {
+  background-color: #78b969;
+  &:hover {
+    background-color: #406438;
+  }
+}
+.grayButton {
+  background-color: #f6f6f6;
+  &:hover {
+    background-color: #dadada;
+  }
+}

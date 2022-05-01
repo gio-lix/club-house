@@ -1,0 +1,19 @@
+.roomBox {
+  width: auto;
+  min-height: 70vh;
+  margin-left: -47px;
+  margin-top: 50px;
+  margin-right: -47px;
+  border-radius: 30px;
+  padding: 20px;
+  background-color: white;
+  > div:nth-child(1) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    p {
+      color: #e00707;
+      font-weight: 500;
+    }
+  }
+}
