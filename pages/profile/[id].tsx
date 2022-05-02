@@ -4,10 +4,10 @@ import {IoMdArrowBack} from "react-icons/io"
 import s from "../../components/pages/profilePage/ProfilePage.module.scss"
 import ProfilePage from "../../components/pages/profilePage/ProfilePage";
 import Link from "next/link";
+import Axios from "../../core/axios";
 
 const Profile = () => {
-    const {query} = useRouter()
-    const {id} = query
+
     return (
         <Layout>
             <Link href="/rooms">

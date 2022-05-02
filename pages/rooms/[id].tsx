@@ -5,12 +5,12 @@ import s from "../../components/pages/profilePage/ProfilePage.module.scss"
 import Link from "next/link";
 import {IoMdArrowBack} from "react-icons/io";
 import RoomPage from "../../components/pages/roomPage";
+import Axios from "../../core/axios";
 
-const RoomsId:NextPage = () => {
-    const {query} = useRouter()
-    const {id} = query
-    console.log("id - ", id)
+const RoomsId:NextPage = ({room}:any) => {
 
+
+    console.log("room - ", room)
 
     return (
         <Layout>
@@ -26,8 +26,19 @@ const RoomsId:NextPage = () => {
                     </a>
                 </Link>
             </section>
-            <RoomPage />
+            <RoomPage
+                title={room.title}
+            />
         </Layout>
     )
 }
 export default RoomsId
+
+export const getServerSideProps = async ({params}) => {
+    const {data} = await Axios.get('/mo.json')
+    const filterData = data?.filter(el => el._id === params.id)
+
+    return {
+        props: {room:filterData[0] }
+    }
+}
