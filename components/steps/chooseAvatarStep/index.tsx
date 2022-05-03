@@ -8,6 +8,18 @@ import React, {useContext, useEffect, useRef, useState} from "react";
 import defaultAvatar from "../../../public/avatart.svg";
 import Avatar from "../../avatar";
 import {MainContext} from "../../../pages";
+import Axios from "../../../core/axios";
+
+const uploadFile = async (file: File) => {
+    const formData = new FormData()
+    formData.append("photo", file)
+    const {data} = await Axios.post("/upload", formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+    return data
+}
 
 
 const ChooseAvatarStep = () => {
@@ -20,11 +32,13 @@ const ChooseAvatarStep = () => {
             imageRef.current.addEventListener("change", handleChangeImage)
         }
     },[])
-    const handleChangeImage = (event: Event) => {
+    const handleChangeImage = async (event: Event) => {
         const file = (event.target as HTMLInputElement).files[0]
         if (file) {
             const imageUrl = URL.createObjectURL(file)
             setAvatarUrl(imageUrl)
+            const data = await uploadFile(file)
+            console.log('file upload', data)
         }
 
     }

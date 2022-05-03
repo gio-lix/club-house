@@ -9,11 +9,13 @@ import s from "./Enter.module.scss"
 import {MainContext} from "../../../pages";
 
 export default function EnterNameStep() {
-    const {onNextSteps} = useContext(MainContext)
-    const [name, setName] = useState("")
+    const {onNextSteps,userData, setFilterMenu} = useContext(MainContext)
+    const [name, setName] = useState<string>(userData.fullname)
+
 
     const handleNext = () => {
         onNextSteps()
+        setFilterMenu("fullname", name)
     }
     return (
         <div>
