@@ -15,8 +15,8 @@ export const MainContext = createContext<MainContextProps>({} as MainContextProp
 
 const stepsComponents = {
     0: WelcomeSteps,
-    1: EnterNameStep,
-    2: TwitterStep,
+    1: TwitterStep,
+    2: EnterNameStep,
     3: ChooseAvatarStep,
     4: EnterNumberStep,
     5: EnterActiveCode

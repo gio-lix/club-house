@@ -4,11 +4,28 @@ import {SiTwitter} from "react-icons/si"
 import Button from "../../Button";
 import s from "./Twitter.module.scss"
 import {BsArrowRight} from "react-icons/bs";
-import {useContext} from "react";
+import {useContext, useEffect} from "react";
 import {MainContext} from "../../../pages";
 
 const TwitterStep = () => {
     const {onNextSteps} = useContext(MainContext)
+
+    const onClick = () => {
+        const win = window.open("http://localhost:5001/auth/github", 'Auth',
+            "width=400,height=500,status=yes,toolbar=no,menubar-nolocation=no")
+        const timer = setInterval(() => {
+            if (win.closed) {
+                clearInterval(timer)
+                onNextSteps()
+            }
+        }, 300)
+    }
+
+    useEffect(() => {
+        window.addEventListener("message", (data) => {
+            console.log("data,", data)
+        })
+    }, [])
 
     return (
         <div className="d-flex f-column">
@@ -22,9 +39,9 @@ const TwitterStep = () => {
                         ML
                     </div>
                     <p>mollie andersson</p>
-                    <Button onClick={onNextSteps} disabled={false} color={'indigo'}>
+                    <Button onClick={onClick} disabled={false} color={'indigo'}>
                         <SiTwitter className="mr-10"/>
-                        import from twitter
+                        import from Github
                         <span className="ml-10 d-flex a-i-center">
                             <BsArrowRight/>
                         </span>
