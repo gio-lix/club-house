@@ -7,13 +7,14 @@ import ChooseAvatarStep from "../components/steps/chooseAvatarStep";
 import EnterActiveCode from "../components/steps/EnterActiveCode";
 import GithubStep from "../components/steps/githubStep";
 
-type UserType = {
-    id: string
+export type UserType = {
+    id: number
     fullname: string
     avatarUrl: string
     isActive: number
     username: string
-    phone: string
+    phone: string,
+    token?: string
 }
 
 
@@ -21,7 +22,7 @@ interface MainContextProps {
     onNextSteps: () => void
     setFilterMenu: (field: keyof UserType, value: string) => void
     setUserData:  Dispatch<SetStateAction<UserType>>
-    userData: UserType
+    userData?: UserType
     step: number
 }
 export const MainContext = createContext<MainContextProps>({} as MainContextProps)
@@ -37,7 +38,7 @@ const stepsComponents = {
 
 
 export default function Home() {
-    const [step, setStep] = useState<number>(3)
+    const [step, setStep] = useState<number>(0)
     const [userData, setUserData] = useState<UserType>()
     const Step = stepsComponents[step]
 
@@ -53,7 +54,6 @@ export default function Home() {
     }
 
     console.log("userData -> ", userData)
-
 
     return (
         <MainContext.Provider value={{step, onNextSteps, userData, setUserData, setFilterMenu}}>

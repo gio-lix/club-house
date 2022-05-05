@@ -1,11 +1,12 @@
 import WhiteBlogs from "../../whiteBlogs"
 import StepInfo from "../../stepInfo";
+import Cookies from "js-cookie"
 import {BsGithub} from "react-icons/bs"
 import Button from "../../Button";
 import s from "./Github.module.scss"
 import {BsArrowRight} from "react-icons/bs";
 import {useContext, useEffect} from "react";
-import {MainContext} from "../../../pages";
+import {MainContext, UserType} from "../../../pages";
 
 const GithubStep = () => {
     const {onNextSteps, setUserData} = useContext(MainContext)
@@ -22,9 +23,9 @@ const GithubStep = () => {
             const user = data
             console.log("user -> ",user)
             if (typeof data === "string" &&  user.includes("avatarUrl")) {
-                const json = JSON.parse(user)
+                const json: UserType = JSON.parse(user)
                 if (json) {
-                    console.log("json -> ", json)
+                    Cookies.set("token", json.token)
                     onNextSteps()
                 }
                 setUserData(json)

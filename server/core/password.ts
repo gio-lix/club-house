@@ -1,7 +1,22 @@
 import passport from "passport";
 import {Strategy as GitHubStrategy} from "passport-github"
+import {Strategy as JwtStrategy , ExtractJwt  } from "passport-jwt"
 import User from "../../models"
+import {createJwtToken} from "../../utils/createjwtToken";
+import {UserType} from "../../pages";
+const {SECRET_JWT_KEY} = process.env
 
+
+const opts = {
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    secretOrKey: SECRET_JWT_KEY
+}
+
+passport.use(
+    "jwt",
+    new JwtStrategy(opts, (jwt_payload, done) =>  {
+        done(null, jwt_payload.data)
+}));
 
 passport.use('github',new GitHubStrategy({
         clientID: process.env.GITHUB_CLIENT_ID,
@@ -10,24 +25,31 @@ passport.use('github',new GitHubStrategy({
     },
     async (_:unknown, __:unknown, profile, done) =>  {
         try {
-            const obj = {
+            let userData: UserType;
+            const obj: Omit<UserType, 'id'> = {
                 fullname: profile.displayName,
                 avatarUrl: profile.photos?.[0].value,
                 isActive: 0,
                 username: profile.username,
-                phone: ''
+                phone: '',
             }
 
-            const findUser = await User.User.findOne({
+            const finedUser = await User.User.findOne({
                 where:{
                     username: obj.username
                 }
             })
-            if (!findUser) {
+
+            if (!finedUser) {
                 const user = await User.User.create(obj)
-                return done(null, user.toJSON())
+                userData = user.toJSON()
+            } else {
+                userData = await finedUser.toJSON()
             }
-            done(null, findUser)
+
+            done(null,{...userData,
+                token: createJwtToken(userData)
+            })
         } catch (error) {
             done(error)
         }

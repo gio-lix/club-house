@@ -5,12 +5,11 @@ import s from "./ChooseAvatar.module.scss"
 import Button from "../../Button";
 import {BsArrowRight} from "react-icons/bs";
 import React, {useContext, useEffect, useRef, useState} from "react";
-import defaultAvatar from "../../../public/avatart.svg";
 import Avatar from "../../avatar";
 import {MainContext} from "../../../pages";
 import Axios from "../../../core/axios";
 
-const uploadFile = async (file: File) => {
+const uploadFile = async (file: File): Promise<{url: string}> => {
     const formData = new FormData()
     formData.append("photo", file)
     const {data} = await Axios.post("/upload", formData, {
@@ -23,7 +22,7 @@ const uploadFile = async (file: File) => {
 
 
 const ChooseAvatarStep = () => {
-    const {onNextSteps} = useContext(MainContext)
+    const {onNextSteps, setFilterMenu, userData} = useContext(MainContext)
     const [avatarUrl , setAvatarUrl] = useState<string>('')
     const imageRef = useRef<HTMLInputElement>(null)
 
@@ -33,21 +32,25 @@ const ChooseAvatarStep = () => {
         }
     },[])
     const handleChangeImage = async (event: Event) => {
-        const file = (event.target as HTMLInputElement).files[0]
+        const target = (event.target as HTMLInputElement)
+        const file = target.files[0]
         if (file) {
-            const imageUrl = URL.createObjectURL(file)
-            setAvatarUrl(imageUrl)
+            // const imageUrl = URL.createObjectURL(file)
             const data = await uploadFile(file)
-            console.log('file upload', data)
+            setAvatarUrl(data.url)
+            target.value = ""
+            setFilterMenu("avatarUrl",data.url )
         }
 
     }
+
+
 
     return (
         <div>
             <StepInfo
                 Icon={MdMonochromePhotos}
-                title={"Okay, Mollie andersson"}
+                title={`"Okay, ${userData?.fullname}`}
                 description={"How's Photo?"}
            />
             <WhiteBlogs>
