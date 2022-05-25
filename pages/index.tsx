@@ -2,7 +2,7 @@ import s from "../styles/Home.module.scss"
 import WelcomeSteps from "../components/steps/welcomeStep";
 import EnterNameStep from "../components/steps/enterNameStep";
 import EnterNumberStep from "../components/steps/enterNumberStep";
-import {createContext, Dispatch, SetStateAction, useState} from "react";
+import {createContext, Dispatch, SetStateAction, useEffect, useState} from "react";
 import ChooseAvatarStep from "../components/steps/chooseAvatarStep";
 import EnterActiveCode from "../components/steps/EnterActiveCode";
 import GithubStep from "../components/steps/githubStep";
@@ -36,6 +36,26 @@ const stepsComponents = {
     5: EnterActiveCode
 }
 
+const getUserData = (): UserType | null => {
+    try {
+        return  JSON.parse(window.localStorage.getItem("userData"))
+    } catch (err) {
+        return null
+    }
+}
+
+
+const getFormStep = (): number => {
+       const json = getUserData()
+       if (json) {
+           if (json.phone) {
+               return 5
+           } else {
+               return 4
+           }
+       }
+    return 0
+}
 
 export default function Home() {
     const [step, setStep] = useState<number>(0)
@@ -52,8 +72,21 @@ export default function Home() {
             [field]: value
         }))
     }
+    useEffect(() => {
+        console.log("window -> ",typeof window)
+        if (typeof window !== "undefined") {
+            const json = getUserData()
+            if (json) {
+                setUserData(json)
+                setStep(getFormStep())
+            }
+        }
+    },[])
 
-    console.log("userData -> ", userData)
+    useEffect(() => {
+        window.localStorage.setItem("userData",userData ? JSON.stringify(userData) : '')
+
+    }, [userData])
 
     return (
         <MainContext.Provider value={{step, onNextSteps, userData, setUserData, setFilterMenu}}>

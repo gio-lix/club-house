@@ -21,13 +21,14 @@ const GithubStep = () => {
     useEffect(() => {
         window.addEventListener("message", ({data, origin}) => {
             const user = data
-            console.log("user -> ",user)
             if (typeof data === "string" &&  user.includes("avatarUrl")) {
                 const json: UserType = JSON.parse(user)
+                Cookies.remove("token")
                 if (json) {
                     Cookies.set("token", json.token)
                     onNextSteps()
                 }
+
                 setUserData(json)
             }
         })

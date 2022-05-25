@@ -1,8 +1,11 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 
+
 class MyDocument extends Document {
     static async getInitialProps(ctx) {
         const originalRenderPage = ctx.renderPage
+
+
 
         // Run the React rendering logic synchronously
         ctx.renderPage = () =>
@@ -23,8 +26,8 @@ class MyDocument extends Document {
         return (
             <Html>
                 <Head >
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-                    <title>Club House</title>
+                    {/*<meta name="viewport" content="width=device-width, initial-scale=1.0"/>*/}
+                    {/*<title>Club House</title>*/}
                 </Head>
                 <body>
                 <Main />

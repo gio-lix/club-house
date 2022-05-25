@@ -5,7 +5,8 @@ import s from "../../components/pages/profilePage/ProfilePage.module.scss"
 import Link from "next/link";
 import {IoMdArrowBack} from "react-icons/io";
 import RoomPage from "../../components/pages/roomPage";
-import Axios from "../../core/axios";
+import {UserApi} from "../../api/UserApi";
+import {Axios} from "../../core/axios";
 
 const RoomsId:NextPage = ({room}:any) => {
 
@@ -35,6 +36,7 @@ const RoomsId:NextPage = ({room}:any) => {
 export default RoomsId
 
 export const getServerSideProps = async ({params}) => {
+
     const {data} = await Axios.get('/mo.json')
     const filterData = data?.filter(el => el._id === params.id)
 

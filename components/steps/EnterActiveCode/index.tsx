@@ -4,11 +4,9 @@ import WhiteBlogs from "../../whiteBlogs";
 import {ChangeEvent, useContext, useState} from "react";
 import s from "./EnterActiveCode.module.scss"
 import clsx from "clsx";
-import Button from "../../Button";
-import {BsArrowRight} from "react-icons/bs";
-import Axios from "../../../core/axios";
 import {useRouter} from "next/router";
 import {MainContext} from "../../../pages";
+import {Axios} from "../../../core/axios";
 
 const EnterActiveCode = () => {
     const {onNextSteps} = useContext(MainContext)
@@ -28,15 +26,19 @@ const EnterActiveCode = () => {
         })
         if (e.target.nextSibling) {
             (e.target.nextSibling as HTMLInputElement).focus()
+        } else {
+            onSubmit([...codes, value].join(''))
         }
     }
-    const onSubmit = async () => {
+    const onSubmit = async (code: string ) => {
+        console.log("code -> ", code)
         try {
             setIsLoading(true)
-            await Axios.get("/todos")
+            await Axios.get(`/auth/sms/activate?code=${code}`)
             router.push("./rooms")
         } catch (err) {
             alert("something went wrong!")
+            setCodes(["", "", "", ""])
         } finally {
             setIsLoading(false)
         }
@@ -70,12 +72,12 @@ const EnterActiveCode = () => {
                                 />
                             ))}
                         </div>
-                        <Button onClick={onSubmit} disabled={nextDisabled} color={!nextDisabled &&  "indigo"}>
-                            Next
-                            <span className="ml-10 d-flex a-i-center">
-                            <BsArrowRight/>
-                        </span>
-                        </Button>
+                        {/*<Button onClick={onSubmit} disabled={nextDisabled} color={!nextDisabled &&  "indigo"}>*/}
+                        {/*    Next*/}
+                        {/*    <span className="ml-10 d-flex a-i-center">*/}
+                        {/*    <BsArrowRight/>*/}
+                        {/*</span>*/}
+                        {/*</Button>*/}
                     </WhiteBlogs>
                 </div>
             )}

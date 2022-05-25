@@ -1,4 +1,4 @@
-import {GetStaticProps, NextPage} from "next";
+import {GetServerSideProps, GetStaticProps, NextPage} from "next";
 import Layout from "../components/Layout/Layout";
 import Button from "../components/Button";
 import {BiPlus} from "react-icons/bi";
@@ -6,8 +6,10 @@ import s from "../components/cart/Cart.module.scss"
 import clsx from "clsx";
 import ConversationCart from "../components/cart";
 import Link from "next/link";
+import Cookies from "nookies"
 import {useEffect, useState} from "react";
-import Axios from "../core/axios";
+import {UserApi} from "../api/UserApi";
+import {CheckAuth} from "../helper/checkAuth";
 
 
 
@@ -44,11 +46,15 @@ const Rooms:NextPage = ({rooms}: any) => {
 }
 export default Rooms
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+
+
     try {
-        const {data} = await Axios.get('/mo.json')
+        const user = await CheckAuth(ctx)
+        console.log("user-> ", user)
+        // const {data} = await Axios.get('/mo.json')
         return {
-            props: {rooms: data}
+            props: {rooms: []}
         }
     } catch (err) {
         return {

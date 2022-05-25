@@ -7,7 +7,7 @@ import {BsArrowRight} from "react-icons/bs";
 import React, {useContext, useEffect, useRef, useState} from "react";
 import Avatar from "../../avatar";
 import {MainContext} from "../../../pages";
-import Axios from "../../../core/axios";
+import {Axios} from "../../../core/axios";
 
 const uploadFile = async (file: File): Promise<{url: string}> => {
     const formData = new FormData()
@@ -25,6 +25,9 @@ const ChooseAvatarStep = () => {
     const {onNextSteps, setFilterMenu, userData} = useContext(MainContext)
     const [avatarUrl , setAvatarUrl] = useState<string>('')
     const imageRef = useRef<HTMLInputElement>(null)
+    const nameLetters = userData.fullname.split(" ").map(l => l[0]).join("")
+
+
 
     useEffect(() => {
         if (imageRef.current) {

@@ -11,6 +11,7 @@ interface ImageType {
 }
 
 const Avatar:FC<ImageType> = ({src, isVoice, className,width,height}) => {
+
     return (
         <>
             <Image
