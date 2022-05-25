@@ -16,8 +16,8 @@ export default function WelcomeSteps() {
             <h3 className={clsx([s.title, "ml-10"])}> Hello To Clubhouse </h3>
           </span>
             <p className={s.para}>
-                We're working to get Clubhouse ready for everyone!
-                while we wrap up the finishing youches, we're adding people
+                We&lsquo;re working to get Clubhouse ready for everyone!
+                while we wrap up the finishing youches, we&lsquo;re adding people
                 gradually to make sure nothing breaks :)
             </p>
             <div className={clsx(s.buttonBox, "mb-15")} >
